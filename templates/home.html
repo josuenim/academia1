@@ -1,0 +1,188 @@
+{% extends "base.html" %} {% load static %} {% block content %}
+<body>
+  <!-- ========================= SECTION MAIN ========================= -->
+  <section class="section-intro padding-y-sm">
+    <div class="container">
+      <div class="intro-banner-wrap">
+        <img
+          src="{% static 'images/banners/banner04.jpg' %}"
+          class="img-fluid rounded"
+        />
+      </div>
+    </div>
+    <!-- container //  -->
+  </section>
+  <main class="contenedor sombra">
+    <div class="servicios">
+      <h2>Disciplinas</h2>
+      <section class="servicio">
+        <h3>Medicina</h3>
+        <div class="iconos">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="icon icon-tabler icon-tabler-stethoscope"
+            width="88"
+            height="88"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="#000000"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path
+              d="M6 4h-1a2 2 0 0 0 -2 2v3.5h0a5.5 5.5 0 0 0 11 0v-3.5a2 2 0 0 0 -2 -2h-1"
+            />
+            <path d="M8 15a6 6 0 1 0 12 0v-3" />
+            <path d="M11 3v2" />
+            <path d="M6 3v2" />
+            <path d="M20 10m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0" />
+          </svg>
+        </div>
+        <!--Iconos-->
+        <p>
+          Ofrecemos una puerta de entrada al emocionante mundo de la ciencia y
+          el cuidado de la salud. Nuestros programas de formación están
+          diseñados para inspirar y capacitar a la próxima generación de
+          profesionales de la medicina.
+        </p>
+      </section>
+
+      <section class="servicio">
+        <h3>Informatica</h3>
+        <div class="iconos">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="icon icon-tabler icon-tabler-braces"
+            width="88"
+            height="88"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="#000000"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path
+              d="M7 4a2 2 0 0 0 -2 2v3a2 3 0 0 1 -2 3a2 3 0 0 1 2 3v3a2 2 0 0 0 2 2"
+            />
+            <path
+              d="M17 4a2 2 0 0 1 2 2v3a2 3 0 0 0 2 3a2 3 0 0 0 -2 3v3a2 2 0 0 1 -2 2"
+            />
+          </svg>
+        </div>
+        <p>
+          En nuestra academia de informática, te ofrecemos las llaves para el
+          éxito en la era digital. Aprende las habilidades tecnológicas más
+          demandadas, desde programación y desarrollo web hasta ciberseguridad y
+          análisis de datos.
+        </p>
+      </section>
+
+      <section class="servicio">
+        <h3>Negocios</h3>
+        <div class="iconos">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="icon icon-tabler icon-tabler-pencil-minus"
+            width="88"
+            height="88"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="#000000"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+            <path d="M13.5 6.5l4 4" />
+            <path d="M16 19h6" />
+          </svg>
+        </div>
+        <!--iconos-->
+        <p>
+          Ofrecemos una experiencia educativa de élite diseñada para impulsar
+          tus habilidades empresariales y abrir las puertas a un futuro de
+          éxito. Con instructores expertos y programas personalizados.
+        </p>
+      </section>
+    </div>
+    <!--Servicios-->
+  </main>
+
+  <header class="section-heading" style="text-align: center">
+    <h3 class="section-title" style="">Cursos</h3>
+  </header>
+  <!-- sect-heading -->
+
+  <section class="section-name padding-y-sm">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="card card-product-grid">
+            <a  class="img-wrap">
+              <img src="{% static 'images/items/medicina1.png' %}" />
+            </a>
+            <figcaption class="info-wrap">
+              <a  class="title">Medico Cirujano</a>
+              <div class="price mt-1">$600.00/año</div>
+              <!-- price-wrap.// -->
+            </figcaption>
+          </div>
+        </div>
+        <!-- col.// -->
+        <div class="col-md-3">
+          <div class="card card-product-grid">
+            <a  class="img-wrap">
+              <img src="{% static 'images/items/informatica1.png' %}" />
+            </a>
+            <figcaption class="info-wrap">
+              <a  class="title">Programdor Web</a>
+              <div class="price mt-1">$600.00/año</div>
+              <!-- price-wrap.// -->
+            </figcaption>
+          </div>
+        </div>
+        <!-- col.// -->
+
+        <div class="col-md-3">
+          <div class="card card-product-grid">
+            <a  class="img-wrap"
+              ><img src="{% static 'images/items/negocios1.png' %}" />
+            </a>
+            <figcaption class="info-wrap">
+              <a  class="title"> Administracion de Empresas </a>
+              <div class="price mt-1">$400.00/año</div>
+              <!-- price-wrap.// -->
+            </figcaption>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="card card-product-grid">
+            <a  class="img-wrap">
+              <img src="{% static 'images/items/informatica1.png' %}" />
+            </a>
+            <figcaption class="info-wrap">
+              <a class="title">Programdor Web</a>
+              <div class="price mt-1">$600.00/año</div>
+              <!-- price-wrap.// -->
+            </figcaption>
+          </div>
+        </div>
+        <!-- col.// -->
+
+        <a href="#" class="btn btn-outline-primary float-right">Ver Todo</a>
+      </div>
+    </div><!-- container // -->
+  </section>
+
+  <!-- ========================= SECTION MAIN END// ========================= -->
+
+  {% endblock content %}
+</body>
+
+

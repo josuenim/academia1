@@ -1,0 +1,16 @@
+<!--Solo si existen alertas-->
+{%if messages%}
+    
+    <div id="message" class="container">
+
+        {%for message in messages%}
+        <!-- message.tags -para saber si de error o confirmacion de evento//-->
+        <div {%if message.tags%} class="alert alert-{{message.tags}}"{%endif%} role="alert">
+            {% comment %} {% if message.level==DEFAULT_MESSAGE_LEVELS.ERROR %} Importante: {%endif%} {% endcomment %}
+            {{message}}
+        </div>
+        {% endfor %}
+
+    </div>   
+    
+{%endif%}

@@ -1,0 +1,8 @@
+{% autoescape off %}<!-- Seguridad para evitar un scriptin-->
+
+Hola {{user.first_name}},
+Por favor activa tu cuenta dandole clic al siguiente link:
+http://{{domain}}{%url 'activate' uidb64=uid token=token%}
+Saludo de Academia Usac
+
+{% endautoescape %}

@@ -1,0 +1,135 @@
+{% extends "base.html" %} {% load static %} {% block content %}
+  <!-- ========================= SECTION PAGETOP ========================= -->
+  <section class="section-pagetop bg">
+    <div class="container">
+      <h2 class="title-page">Nuestros Cursos</h2>
+    </div>
+    <!-- container //  -->
+  </section>
+
+  <!-- ========================= SECTION  ========================= -->
+
+  <section class="section-content padding-y">
+    <div class="container">
+      <div class="row">
+        <aside class="col-md-3">
+          <div class="card">
+            <article class="filter-group">
+              <header class="card-header">
+                <a
+                  href="#"
+                  data-toggle="collapse"
+                  data-target="#collapse_1"
+                  aria-expanded="true"
+                  class=""
+                >
+                  <i class="icon-control fa fa-chevron-down"></i>
+                  <h6 class="title">Categories</h6>
+                </a>
+              </header>
+              <div
+                class="filter-content collapse show"
+                id="collapse_1"
+                style=""
+              >
+                <div class="card-body">
+                  <ul class="list-menu">
+                    <li><a href="{%url 'Cursos'%}">Todos </a></li>
+                    {%for category in links %}
+                    <li>
+                      <a href="{{category.get_url}}"
+                        >{{category.category_name }}
+                      </a>
+                    </li>
+                    {%endfor%}
+                  </ul>
+                </div>
+                <!-- card-body.// -->
+              </div>
+            </article>
+            <!-- filter-group .// -->
+          </div>
+          <!-- card.// -->
+        </aside>
+        <!-- col.// -->
+
+        <main class="col-md-9">
+          <!-- sect-heading -->
+          <header class="border-bottom mb-4 pb-3">
+            <div class="d-flex justify-content-center mb-3 mb-lg-0">
+              {% comment %}
+              <a href="#" class="widget-header pl-3 ml-3">  {% url 'cart' %} 
+                <div class="icon icon-sm rounded-circle border">
+                  <i class="fa fa-shopping-cart"></i>
+                </div>
+
+                <span class="badge badge-pill badge-danger notify"
+                  >{{cart_count}}</span
+                >
+              </a>
+            </div>
+            {% endcomment %}
+            <div class="form-inline">
+              <span class="mr-md-auto"><b>{{curso_count}} Cursos</b></span>
+            </div>
+          </header>
+
+          <!-- sect-heading -->
+          <div class="row">
+            {% for curso in cursos %}
+            <div class="col-md-4">
+              <figure class="card card-product-grid">
+                <div class="img-wrap">
+                <a href="{{ curso.get_url}}"><img src="{{curso.cat_image.url}}"></a>
+                </div>
+                <!-- img-wrap.// -->
+                <figcaption class="info-wrap">
+                  <div class="fix-height">
+                    <a
+                      href="{{curso.get_url}}"
+                      class="title"
+                      style="text-align: center"
+                      >{{curso.nombre}}
+                    </a>
+                    <div class="price-wrap mt-2">
+                      <span class="price">${{curso.costo}}/año</span>
+                    </div>
+                    <!-- price-wrap.// -->
+                  </div>
+
+                  
+                  {%if user.id is None%}
+                  <a
+                    href="{% url 'login' %}"
+                    class="btn btn-block btn-success"
+                    >Añadir Curso
+                  </a>
+                  {%else%}
+                  <a
+                    {% comment %} href="#" {% url 'add_cart' curso.id%} {% endcomment %}
+                    class="btn btn-block btn-success"
+                    >Añadir Curso
+                  </a>
+                  {% endif %}
+
+
+
+                </figcaption>
+              </figure>
+            </div>
+            <!-- col.// -->
+            {% endfor %}
+          </div>
+          <!-- row end.// -->
+        </main>
+        <!-- col.// -->
+      </div>
+      <!-- row end.// -->
+    </div>
+    <!-- container // -->
+  </section>
+  <!-- ========================= SECTION  END// ========================= -->
+
+  
+
+{% endblock content %}

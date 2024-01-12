@@ -1,0 +1,145 @@
+.body2{
+    background-color: #f2801c !important;
+  }
+  .header2{
+    background-color: #1b3039 !important;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 85px;
+    padding: 5px 10px;
+  }
+  .header2 .logo2{
+        cursor:pointer;
+        margin-right:auto;
+        padding: 5px 20px;
+  }
+  .header2 .logo2 img{
+    height: 70px;
+    width: auto;
+  }
+  .header2 .logo2 img:hover{
+    transform: scale(1.2);
+  }
+  .header2 .nav-links2 li{
+    display: inline-block;
+    padding:0 20px;
+  } 
+  .header2 .nav-links2 a{
+    font-size:28px;
+    color: #eceff1;
+    text-decoration: none;
+  }
+  .header2 .nav-links2 li:hover{
+    transform: scale(1.1);   
+  }
+  .header2 .nav-links2 li a:hover{
+    color: #ffbc0e !important;
+  }
+  .header2 .btn2 button{
+    font-weight: 700;
+    font-size:30px;
+    color: #1b3039;
+    padding: 15px 10px;
+    background: #eceff1;
+    margin-left: 5px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+    
+  }
+  .header2 .btn2 button:hover{
+    background-color: #e2f1f8;
+    color: #ffbc0e;
+    transform: scale(1.15);
+  }
+
+   li{
+    list-style: none;
+    cursor:pointer; 
+    padding: 5px;
+    border: none;
+    transition: all 0.3s ease 0s;
+    border-radius: 25px;
+  } 
+
+
+  .ul-second {
+    position: absolute; 
+    display: none ; 
+    transform:translateY(-5px);
+  }
+
+   .ul-second > li{
+    border-bottom: solid 5px #fff;
+    background-color: #1b3039;
+    padding: 20px;
+    width: 190px;
+    transform:translateX(-30px);
+    padding: 20px;
+    text-align: center;
+ 
+  } 
+
+  .register{
+    font-size:28px;
+    color: #eceff1;
+    text-decoration: none;
+  }
+  .register:hover >.ul-second{
+    display:block;
+  } 
+
+    .sombra{
+      -webkit-box-shadow: -9px 4px 16px -1px rgba(0,0,0,0.69);
+      -moz-box-shadow: -9px 4px 16px -1px rgba(0,0,0,0.69);
+      box-shadow: -9px 4px 16px -1px rgba(0,0,0,0.69);
+      background-color: #FFFFFF;
+      padding: 2rem;/*Queremo que se separe del contenido de alrededor*/
+      border-radius: 1rem;/*Redondeo de esquinas*/
+    }
+    .contenedor{
+      max-width:110rem;  /*Toma 1200px como maximo*/      
+      margin: 20px 200px 0 200px;
+     }
+     @media (min-width: 768px){
+      .servicios{
+          display: grid;
+          grid-template-columns: repeat(3,1fr);/*Divide en tres fracciones nuestro area main*/
+          /* grid: 200px 800px/ 300px 300px; /* 1ero Tamaño de las filas/ 2do tamaño de las columnas */
+          column-gap: 2rem ;/*Similar a un margen, en este caso aplicara separacion de la columnas*/
+          grid-template-rows: auto auto;
+      }
+    }
+    .servicios{
+      display: grid;
+      grid-template-columns:repeat(3,1fr) ; /*repeat(3,1fr)*/
+      column-gap: 2rem ;
+      grid-template-rows: auto auto;
+    }
+    .servicio{
+      display:flex;
+      flex-direction:column;
+      align-items: center;
+    }
+    .servicio p{
+        text-align: center;
+        font-size: 20px;
+      }
+
+    .iconos {
+      height:12rem;
+      width: 12rem;
+      background-color: #0097a7;
+      border-radius: 50%;
+      display:flex;/*Horizontalmente*/
+      justify-content: space-around;
+      align-items: center; /*Verticalmente */ 
+    }
+    h2{
+      font-size: 2.8rem !important;
+      text-align: center;
+    }
+    .servicios h2{
+      grid-column: 1 / 4;/*Definimos el tamano de la columan para el input*/
+    }

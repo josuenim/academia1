@@ -1,0 +1,63 @@
+{% load static %}
+<header class="section-header">
+    <nav class="navbar p-md-0 navbar-expand-sm navbar-light border-bottom">
+      <div class="container">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarTop4"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarTop4">
+          <ul class="navbar-nav">
+            <li>
+              <a href="#" class="nav-link">
+                <i class="fa fa-envelope"></i> Email
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link">
+                <i class="fa fa-phone"></i> Llamanos</a
+              >
+            </li>
+          </ul>
+          <!-- list-inline //  -->
+        </div>
+        <!-- navbar-collapse .// -->
+      </div>
+      <!-- container //  -->
+    </nav>
+    </header>
+    <header class="header2">
+        <div class="logo2">
+            <a href = "{% url 'home' %}"> <img src="{% static 'images/usaclogo3.png' %}" alt="Logo Academia"> <a>
+        </div>
+        <nav class="nav-links2">
+            <ul>
+                <li><a href="{% url 'Cursos'%}">Cursos</a></li>
+                <li><a href="#"></a></li>
+                <li class="register">Registrarse
+                  <ul class= "ul-second">
+                    <li><a href="{% url 'register' %}">Estudiante</a></li>
+                    <li><a href = "{% url 'register_1' %}">Catedratico</a></li>
+                  </ul>     
+                </li>             
+            </ul>
+        </nav>
+        {%if user.id is None%}
+        <div class="widget-header">
+          <small class="tittle text-muted">Bienvenido visitante</small>
+        <a href="{% url 'login' %}" class="btn2"><button>Log in</button></a>
+        </div>
+        {% else %}
+        <div class="widget-header">
+          <small class="tittle text-muted">Bienvenido {{user.first_name}}</small>
+            <a href="{% url 'logout' %}" class="btn2"><button>Log out</button></a>
+        </div>
+        {%endif%}
+    </header>
