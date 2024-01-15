@@ -10,6 +10,12 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
 from django.core.mail import EmailMessage
+
+#Importamos la funcion que me permite buscar el carrito de compras
+from carts.views import _get_cart_id
+from carts.models import Cart, CartItem
+
+
 # Create your views here.
     #En la funcion register creamos un objeto form basado en 
     # el RegistrationForm(), desemos que se diriga hacia el template html
@@ -130,14 +136,28 @@ def login(request):
         user = auth.authenticate(email=email, password=password)
 
         if user is not None:
+            try:
+                cart = Cart.objects.get(cart_id=_get_cart_id(request))
+                is_cart_item_exists=CartItem.objects.filter(cart=cart).exists()
+                if is_cart_item_exists:
+                    #Devuelve un arreglo de la coleccion de todos los items
+                    #elementos que contiene el carrito de compras
+                    cart_item = CartItem.objects.filter(cart=cart)
+                    for item in cart_item:
+                        item.user= user 
+                        item.save()
+            except:
+                pass
+
             auth.login(request, user)
+            messages.success(request, 'Has iniciado sesion exitosamente' )
         #Falta solucionar el is_catedratico
             if user.is_catedratico:  # atributo 'is_catedratico'  modelo Catedratico
                 return redirect('home')#pagina_catedratico
             elif user.is_staff:  #  'is_staff' indica administrador
                 return redirect('admin:index') #'admin:index'
             elif user.is_account:  # atributo 'is_account'  modelo Account
-                return redirect('Cursos')#'pagina_estudiante'
+                return redirect('dashboard')#'pagina_estudiante'
             else:
                 return redirect('Home') 
 
@@ -181,5 +201,78 @@ def pagina_estudiante(request):
 @login_required(login_url ='login')
 def pagina_estudiante(request):
     return render(request,'dashboard/estudiante.html')
+
+@login_required(login_url ='login')
+def dashboard(request):
+    return render(request,'accounts/dashboard.html')
+
+def forgotPassword(request):
+    if request.method == 'POST':
+        #Caputer el parametro email que viene del formulario
+        email = request.POST['email']
+        if Account.objects.filter(email=email).exists():
+            #Si el usuario existe,obtenemos el usuario de la base de datos
+            user=Account.objects.get(email__exact=email)
+
+            current_site = get_current_site(request)
+            mail_subject = 'Resetear Password'
+            body =  render_to_string('accounts/reset_password_email.html',{
+                'user':user,
+                'domain':current_site,
+                # Identificado
+                'uid':urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': default_token_generator.make_token(user),
+            })
+            # indicamos cual es el email el cual va recibir este correo electronico
+            to_email= email
+            send_email = EmailMessage(mail_subject,body, to=[to_email])
+            send_email.send()
+            # Generar un mensaje a la pagina disiendo que este correo esta llegando a tu bandeja de entrada
+            messages.success(request, 'Un email fue enviado a tu bandeja de entrada para resetear tu password')
+            return redirect('login')
+        else: 
+            messages.error(request, 'La cuenta de usuario no existe')
+            return redirect('forgotPassword')
+
+
+    return render(request,'accounts/forgotPassword.html')
+
+#cuando el usuario reciba un correo electronico dentro del body de este correo
+#va a aperecer un link, cuando le de clic a ese link es que se va a ejecutar esta funcion resetpassword_validate
+def resetpassword_validate(request, uidb64, token):
+    #crear un metodo para poder capturar el uid el parametro  decodificado y tambien el user
+    try:
+        uid=urlsafe_base64_decode(uidb64).decode()
+        user=Account._default_manager.get(pk= uid)
+    except (TypeError,ValueError,OverflowError, Account.DoesNotExist):
+        user:None
+    if user is not None and default_token_generator.check_token(user, token):
+        request.session['uid'] =uid
+        messages.success(request,'Por favor resetea tu Password')
+        return redirect('resetPassword')
+    else:
+        messages.error(request, 'El link ha expirado')
+        return redirect('login')
+    
+#funcion que procese el resetpassword
+def resetPassword(request):
+    if request.method == 'POST':
+        password =request.POST['password']
+        confirm_password =request.POST['confirm_password']
+
+        if password == confirm_password:
+            uid = request.session.get('uid')
+            user = Account.objects.get(pk=uid)
+            user.set_password(password)
+            user.save()
+            messages.success(request, 'El password se reseteo correctamente')
+            return redirect('login')
+        else:
+            messages.erro(request,'El password de confirmacion no concuerda')
+            return redirect('resetPassword')
+    else:
+        return render(request, 'accounts/resetPassword.html')
+
+
 
 

@@ -6,7 +6,6 @@ from django.urls import reverse
 class Curso(models.Model):
     nombre = models.CharField(max_length=50)
     slug =models.CharField(max_length=100,blank=True)
-
     costo=models.PositiveIntegerField()
     horario=models.CharField(max_length=20) 
     cupo=models.PositiveIntegerField()
@@ -26,6 +25,8 @@ class Curso(models.Model):
     def get_url(self):
         #le pasamos a curso_detail lo siguientes argumentos 
         return reverse('curso_detail',args=[self.category.category_slug,self.slug])
+    #def get_url_check(self):
+    #    return reverse('add_cart', args=[self.category.category_slug,self.slug])
 
     #La data va a ser visible dentro del modulo de administracion de django
     #la data con valor representativo

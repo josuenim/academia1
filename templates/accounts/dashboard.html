@@ -1,0 +1,78 @@
+
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+
+<!-- ========================= SECTION CONTENT ========================= -->
+<section class="section-pagetop bg">
+    <div class="container">
+      <h2 class="title-page">Tus Cursos</h2>
+    </div>
+    <!-- container //  -->
+  </section>
+<section class="section-conten padding-y bg">
+
+    {% include 'includes/alerts.html' %}
+
+    <div class="container">
+        <div class="row">
+        <aside class="col-md-3">
+            <!--   SIDEBAR   -->
+            <ul class="list-group">
+                <a class="list-group-item active" href="#"> Ver Perfil </a>
+                <a class="list-group-item active" href="{%url 'forgotPassword'%}"> Recuperar Contraseña </a>
+            </ul>
+            <br>
+            <a class="btn btn-light btn-block" href="{%url 'logout'%}"> <i class="fa fa-power-off"></i> <span class="text">Salir de sesion</span> </a> 
+            <!--   SIDEBAR .//END   -->
+        </aside>
+        <main class="col-md-9">
+            <article class="card">
+            <header class="card-header">
+                <strong class="d-inline-block mr-3">{{user.first_name}}</strong>
+                <span></span>
+            </header>
+            <div class="card-body">
+                <div class="row"> 
+                    <div class="col-md-8">
+                        <h6 class="text-muted"></h6>
+                        <p>Estudiante<br>  
+                         </p>
+                    </div>
+                    <div class="col-md-4">
+                        <h6 class="text-muted">Datos</h6>
+                    </div>
+                </div> <!-- row.// -->
+            </div> <!-- card-body .// -->
+            <div class="table-responsive">
+            <table class="table table-hover">
+
+                {%for cart_item in cart_items %}
+                <tr>
+                    <td width="65">
+                        <img src="{{cart_item.curso.cat_image.url}}" class="img-xs border">
+                    </td>
+                    <td> 
+                        <a href="" class="title text-dark"
+                        >{{cart_item.curso.nombre}}</a>
+                    </td>
+
+                    <td> <var class="price text-muted">Horario</var> <br> 9:00 pm<br>12:00 pm </td>
+                    <td width="200"> <var class="price text-muted">Nota del curso</var>
+                        <br> <a  class="title text-dark" >{{cart_item.nota}}</a> </td>
+                    <td><a href="{{cart_item.curso.get_url}}" class="btn btn-info"> Detalles del curso </a> </td>
+                </tr>
+                {% endfor %}
+            </table>
+            </div> <!-- table-responsive .end// -->
+            </article> <!-- order-group.// --> 
+        </main>
+    </div> <!-- row.// -->
+    </div>
+    
+    
+    </section>
+    <!-- ========================= SECTION CONTENT END// ========================= -->
+
+{% endblock content %}

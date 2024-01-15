@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-g)dz-)$=^#==!pn%o*!zw0fg!^bj31_5bg)8pgy@hm(zj@hp8t
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['academia1-env.eba-mmzidnpt.us-west-2.elasticbeanstalk.com']
 
 
 # Application definition
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'accounts2',
     'category',
     'cursos',
+    'carts',
 ]
 
 
@@ -79,6 +80,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'category.context_processors.menu_links',
+                'carts.context_processors.counter',
             ],
         },
     },

@@ -46,7 +46,13 @@
                     <li><a href="{% url 'register' %}">Estudiante</a></li>
                     <li><a href = "{% url 'register_1' %}">Catedratico</a></li>
                   </ul>     
-                </li>             
+                </li> 
+                {%if user.id is None%}
+                <li><a href="#"></a></li>
+                {% else %}
+                <li><a href="{%url 'checkout'%}">Dashboard</a></li>
+                {%endif%}
+              
             </ul>
         </nav>
         {%if user.id is None%}

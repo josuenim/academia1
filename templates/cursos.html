@@ -1,135 +1,155 @@
 {% extends "base.html" %} {% load static %} {% block content %}
-  <!-- ========================= SECTION PAGETOP ========================= -->
-  <section class="section-pagetop bg">
-    <div class="container">
-      <h2 class="title-page">Nuestros Cursos</h2>
-    </div>
-    <!-- container //  -->
-  </section>
+<!-- ========================= SECTION PAGETOP ========================= -->
+<section class="section-pagetop bg">
+  <div class="container">
+    <h2 class="title-page">Nuestros Cursos</h2>
+  </div>
+  <!-- container //  -->
+</section>
 
-  <!-- ========================= SECTION  ========================= -->
+<!-- ========================= SECTION  ========================= -->
 
-  <section class="section-content padding-y">
-    <div class="container">
-      <div class="row">
-        <aside class="col-md-3">
-          <div class="card">
-            <article class="filter-group">
-              <header class="card-header">
-                <a
-                  href="#"
-                  data-toggle="collapse"
-                  data-target="#collapse_1"
-                  aria-expanded="true"
-                  class=""
-                >
-                  <i class="icon-control fa fa-chevron-down"></i>
-                  <h6 class="title">Categories</h6>
-                </a>
-              </header>
-              <div
-                class="filter-content collapse show"
-                id="collapse_1"
-                style=""
+<section class="section-content padding-y">
+  <div class="container">
+    <div class="row">
+      <aside class="col-md-3">
+        <div class="card">
+          <article class="filter-group">
+            <header class="card-header">
+              <a
+                href="#"
+                data-toggle="collapse"
+                data-target="#collapse_1"
+                aria-expanded="true"
+                class=""
               >
-                <div class="card-body">
-                  <ul class="list-menu">
-                    <li><a href="{%url 'Cursos'%}">Todos </a></li>
-                    {%for category in links %}
-                    <li>
-                      <a href="{{category.get_url}}"
-                        >{{category.category_name }}
-                      </a>
-                    </li>
-                    {%endfor%}
-                  </ul>
-                </div>
-                <!-- card-body.// -->
-              </div>
-            </article>
-            <!-- filter-group .// -->
-          </div>
-          <!-- card.// -->
-        </aside>
-        <!-- col.// -->
-
-        <main class="col-md-9">
-          <!-- sect-heading -->
-          <header class="border-bottom mb-4 pb-3">
-            <div class="d-flex justify-content-center mb-3 mb-lg-0">
-              {% comment %}
-              <a href="#" class="widget-header pl-3 ml-3">  {% url 'cart' %} 
-                <div class="icon icon-sm rounded-circle border">
-                  <i class="fa fa-shopping-cart"></i>
-                </div>
-
-                <span class="badge badge-pill badge-danger notify"
-                  >{{cart_count}}</span
-                >
+                <i class="icon-control fa fa-chevron-down"></i>
+                <h6 class="title">Categories</h6>
               </a>
-            </div>
-            {% endcomment %}
-            <div class="form-inline">
-              <span class="mr-md-auto"><b>{{curso_count}} Cursos</b></span>
-            </div>
-          </header>
-
-          <!-- sect-heading -->
-          <div class="row">
-            {% for curso in cursos %}
-            <div class="col-md-4">
-              <figure class="card card-product-grid">
-                <div class="img-wrap">
-                <a href="{{ curso.get_url}}"><img src="{{curso.cat_image.url}}"></a>
-                </div>
-                <!-- img-wrap.// -->
-                <figcaption class="info-wrap">
-                  <div class="fix-height">
-                    <a
-                      href="{{curso.get_url}}"
-                      class="title"
-                      style="text-align: center"
-                      >{{curso.nombre}}
+            </header>
+            <div class="filter-content collapse show" id="collapse_1" style="">
+              <div class="card-body">
+                <ul class="list-menu">
+                  <li><a href="{%url 'Cursos'%}">Todos </a></li>
+                  {%for category in links %}
+                  <li>
+                    <a href="{{category.get_url}}"
+                      >{{category.category_name }}
                     </a>
-                    <div class="price-wrap mt-2">
-                      <span class="price">${{curso.costo}}/año</span>
-                    </div>
-                    <!-- price-wrap.// -->
-                  </div>
-
-                  
-                  {%if user.id is None%}
-                  <a
-                    href="{% url 'login' %}"
-                    class="btn btn-block btn-success"
-                    >Añadir Curso
-                  </a>
-                  {%else%}
-                  <a
-                    {% comment %} href="#" {% url 'add_cart' curso.id%} {% endcomment %}
-                    class="btn btn-block btn-success"
-                    >Añadir Curso
-                  </a>
-                  {% endif %}
-
-
-
-                </figcaption>
-              </figure>
+                  </li>
+                  {%endfor%}
+                </ul>
+              </div>
+              <!-- card-body.// -->
             </div>
-            <!-- col.// -->
-            {% endfor %}
-          </div>
-          <!-- row end.// -->
-        </main>
-        <!-- col.// -->
-      </div>
-      <!-- row end.// -->
-    </div>
-    <!-- container // -->
-  </section>
-  <!-- ========================= SECTION  END// ========================= -->
+          </article>
+          <!-- filter-group .// -->
+        </div>
+        <!-- card.// -->
+      </aside>
+      <!-- col.// -->
 
-  
+      <main class="col-md-9">
+        <!-- sect-heading -->
+        <header class="border-bottom mb-4 pb-3">
+          <div class="d-flex justify-content-center mb-3 mb-lg-0">
+            <a href="{% url 'cart' %}" class="widget-header pl-3 ml-3">
+              Ver Cursos asignados
+
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="40"
+                height="40"
+                fill="currentColor"
+                class="bi bi-pencil-square"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"
+                />
+                <path
+                  fill-rule="evenodd"
+                  d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
+                />
+              </svg>
+              
+              <span class="badge badge-pill badge-danger notify">{{cart_count}}</span>
+            </a>
+            {% comment %}<i class="fa fa-shopping-cart"></i>
+            <div class="icon icon-sm rounded-circle border"></div>{% endcomment %}
+          </div>
+
+          <div class="form-inline">
+            <span class="mr-md-auto"><b>{{curso_count}} Cursos</b></span>
+          </div>
+        </header>
+
+        <!-- sect-heading -->
+        <div class="row">
+          {% for curso in cursos %}
+          <div class="col-md-4">
+            <figure class="card card-product-grid">
+              <div class="img-wrap">
+                <a href="{{ curso.get_url}}"
+                  ><img src="{{curso.cat_image.url}}"
+                /></a>
+              </div>
+              <!-- img-wrap.// -->
+              <figcaption class="info-wrap">
+                <div class="fix-height">
+                  <a
+                    href="{{curso.get_url}}"
+                    class="title"
+                    style="text-align: center"
+                    >{{curso.nombre}}
+                  </a>
+                  <div class="price-wrap mt-2">
+                    <span class="price">${{curso.costo}}/año</span>
+                  </div>
+                  <!-- price-wrap.// -->
+                </div>
+
+                {%if user.id is None%}
+                <a href="{% url 'login' %}" class="btn btn-block btn-success"
+                  >Añadir Curso
+                </a>
+                {%else%}
+                    {% if curso.id in cursos_en_carrito %}
+                    <a href="{% url 'add_cart' curso.id %}" class="btn btn-block btn-secondary">
+                      Curso agregado </a>
+                    {% else %}
+                    <a href="{% url 'add_cart' curso.id %}" class="btn btn-block btn-success">
+                      Añadir Curso</a>
+                    {% endif %}
+                {% endif %}
+
+              </figcaption>
+            </figure>
+          </div>
+          <!-- col.// -->
+          {% endfor %}
+        </div>
+        <!-- row end.// -->
+      </main>
+      <!-- col.// -->
+    </div>
+    <!-- row end.// -->
+  </div>
+  <!-- container // -->
+</section>
+<!-- ========================= SECTION  END// ========================= -->
 
 {% endblock content %}
+
+
+ {% comment %} {%if in_cart %}
+                <a href="#" class="btn btn-block btn-secondary"
+                  >Curso agregado
+                </a>
+                {% else %}
+                <a
+                  href="{% url 'add_cart' curso.id%}"
+                  class="btn btn-block btn-success"
+                  >Añadir Curso
+                </a>
+                {% endif %} {% endcomment %}
