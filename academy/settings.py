@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
-
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-g)dz-)$=^#==!pn%o*!zw0fg!^bj31_5bg)8pgy@hm(zj@hp8t
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['your_domain_or_ip', '127.0.0.1', 'localhost']#'academia1-env.eba-mmzidnpt.us-west-2.elasticbeanstalk.com'
+ALLOWED_HOSTS = ['academia1-env.eba-mmzidnpt.us-west-2.elasticbeanstalk.com']#'your_domain_or_ip', '127.0.0.1', 'localhost'
 
 
 # Application definition
@@ -95,7 +95,21 @@ AUTH_USER_MODEL = 'accounts2.Account'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
+
+
+if 'RDS_DB_NAME' in os.environ:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ['RDS_DB_NAME'],
+            'USER': os.environ['RDS_USERNAME'],
+            'PASSWORD': os.environ['RDS_PASSWORD'],
+            'HOST': os.environ['RDS_HOSTNAME'],
+            'PORT': os.environ['RDS_PORT'],
+        }
+    }
+else:
+    DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'academia1',
@@ -104,7 +118,8 @@ DATABASES = {
         'HOST':'localhost',#localhost
         'DATABASE_PORT':'5432'# Puerto para postgresql 12
     }
-}
+} 
+
 
 
 # Password validation
