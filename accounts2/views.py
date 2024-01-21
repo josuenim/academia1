@@ -1,6 +1,6 @@
-from django.shortcuts import render,redirect
-from .forms import RegistrationForm, RegistrationFormCatedratico
-from .models import Account, Catedratico
+from django.shortcuts import render,redirect, get_object_or_404
+from .forms import RegistrationForm, RegistrationFormCatedratico, UserProfileForm, UserForm
+from .models import Account, Catedratico, UserProfile
 #from cursos.models import Curso
 from django.contrib import messages,auth
 from django.contrib.auth.decorators import login_required
@@ -13,7 +13,7 @@ from django.core.mail import EmailMessage
 
 #Importamos la funcion que me permite buscar el carrito de compras
 from carts.views import _get_cart_id
-from carts.models import Cart, CartItem
+
 
 
 # Create your views here.
@@ -105,12 +105,17 @@ def register_1(request):
             user.is_catedratico=True
             #user.phone_number='0'
             #user.curso=curso
-            user.save()
+           
             #valor = 2
+        else:
+            messages.error(request, 'Formulario no valido')
+        if not Catedratico.objects.filter(dpi=dpi).exists():
+            user.save()
             messages.success(request, 'Se ha enviado la solicitud')
             return redirect('/accounts2/login/?command=verification-catedratico')
         else:
-            messages.error(request, 'Formulario no valido')
+            messages.error(request, 'DPI ya existe')
+            return redirect('register_1')
 
     context = {
         'form_1': form_1,
@@ -121,8 +126,7 @@ def register_1(request):
 def eleccion_usuario(request):
     return render(request, 'accounts/Registro.html')
 
-def pagina_catedratico(request):
-    return render(request,'dashboard/catedratico.html')
+
 
 
 
@@ -136,28 +140,16 @@ def login(request):
         user = auth.authenticate(email=email, password=password)
 
         if user is not None:
-            try:
-                cart = Cart.objects.get(cart_id=_get_cart_id(request))
-                is_cart_item_exists=CartItem.objects.filter(cart=cart).exists()
-                if is_cart_item_exists:
-                    #Devuelve un arreglo de la coleccion de todos los items
-                    #elementos que contiene el carrito de compras
-                    cart_item = CartItem.objects.filter(cart=cart)
-                    for item in cart_item:
-                        item.user= user 
-                        item.save()
-            except:
-                pass
 
             auth.login(request, user)
             messages.success(request, 'Has iniciado sesion exitosamente' )
         #Falta solucionar el is_catedratico
             if user.is_catedratico:  # atributo 'is_catedratico'  modelo Catedratico
-                return redirect('home')#pagina_catedratico
+                return redirect('dashboard_catedratico')#pagina_catedratico
             elif user.is_staff:  #  'is_staff' indica administrador
                 return redirect('admin:index') #'admin:index'
             elif user.is_account:  # atributo 'is_account'  modelo Account
-                return redirect('dashboard')#'pagina_estudiante'
+                return redirect('checkout')#'pagina_estudiante'
             else:
                 return redirect('Home') 
 

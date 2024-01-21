@@ -17,22 +17,38 @@
 
     <div class="container">
         <div class="row">
-        <aside class="col-md-3">
-            <!--   SIDEBAR   -->
-            <ul class="list-group">
-                <a class="list-group-item active" href="#"> Ver Perfil </a>
-                <a class="list-group-item active" href="{%url 'forgotPassword'%}"> Recuperar Contraseña </a>
-            </ul>
-            <br>
-            <a class="btn btn-light btn-block" href="{%url 'logout'%}"> <i class="fa fa-power-off"></i> <span class="text">Salir de sesion</span> </a> 
-            <!--   SIDEBAR .//END   -->
-        </aside>
+
+        {%include 'includes/dashboard_siderbar.html'%}
         <main class="col-md-9">
             <article class="card">
             <header class="card-header">
-                <strong class="d-inline-block mr-3">{{user.first_name}}</strong>
-                <span></span>
+                <strong class="d-inline-block mr-3">Sesiono iniciada de:    </strong>
+                <span>{{user.first_name}} {{user.last_name}}</span>
             </header>
+
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="card" style="text-align: center;">
+                            <div class="card-body">
+                                <h5 class="card-title"> Total de cursos</h5>
+                                <h4>{{cart_count}}</h4>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <div class="col-md-7">
+                        <div class="card" style="text-align:center;">
+                            <div class="card-body">
+                                <img src="{{userprofile.profile_picture.url}}" alt="Imagen de Perfil" width="50" height="50" style="border-radius: 50%;">
+                                <p class="mb-0">{{user.email}}</p>
+                                <p> {{user.phone_number}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="card-body">
                 <div class="row"> 
                     <div class="col-md-8">

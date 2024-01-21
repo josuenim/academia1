@@ -2,13 +2,17 @@ from django.db import models
 from cursos.models import Curso
 # Create your models here.
 from accounts2.models import Account
+from django.contrib.auth import get_user_model
 
 #Estructura del carrito de compra. Padre de Cart_item
 class Cart(models.Model):
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, null=True, blank=True)
     cart_id= models.CharField(max_length=250, blank=True)
     date_added= models.DateField(auto_now_add=True)
+    asignado =models.BooleanField(default=False)
     def __str__(self):
-        return self.cart_id
+        return f"{self.user}   ({self.cart_id})"#self.cart_id
+
  
 #Cart_Id o producto selecciona que sera seleccionado y comprado
 class CartItem(models.Model):

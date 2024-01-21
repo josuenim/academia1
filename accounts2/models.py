@@ -1,5 +1,4 @@
 from django.db import models
-#from cursos.models import Curso
 from django.contrib.auth.models import AbstractBaseUser,BaseUserManager
 # Create your models here.
 class MyAccountManager(BaseUserManager):
@@ -46,6 +45,7 @@ class Account(AbstractBaseUser):
     fecha_de_nacimiento = models.DateField(null=True, blank=True)
     is_account =models.BooleanField(default=False)
     is_catedratico =models.BooleanField(default=False)
+    asignado = models.BooleanField(default = False)
 
 
     #Campos Atributos de django
@@ -66,6 +66,9 @@ class Account(AbstractBaseUser):
     # Métodos de la interfaz de permisos
     def get_all_permissions(self, obj=None):
         return set()
+    def asignar_cursos(self):
+        self.asignado = True
+        self.save()
     
     def __str__(self):
         return self.email
@@ -108,6 +111,7 @@ class Catedratico(AbstractBaseUser):
 
     objects = CatedraticoManager() 
 
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username', 'nombre', 'apellido', 'dpi']
 
@@ -119,4 +123,21 @@ class Catedratico(AbstractBaseUser):
     # la libreria jazzmin no presente problemas.
     def get_all_permissions(self, obj=None):
         return set()
+    
 
+
+    '''Tengo una aplicacion llama accounts2 dentro tengo mi modelo Account el cual guarda los datos como first_name, last_name, email... lo que me gustaria hacer es que dentro de un template al darle al boton assignar cursos'''
+
+class UserProfile(models.Model):
+    user =models.OneToOneField(Account, on_delete=models.CASCADE)
+    address_line_1 = models.CharField(blank=True, max_length=100)
+    address_line_2 = models.CharField(blank=True, max_length=100)
+    profile_picture = models.ImageField(blank=True, upload_to='userprofile')
+    city =models.CharField(blank = True, max_length=20)
+    state =models.CharField(blank = True, max_length=20)
+    country =models.CharField(blank = True, max_length=20)
+
+    def __str__(self):
+        return self.user.first_name
+    def full_address(self):
+        return f'{self.address_line_1}{self.address_line_2}'
