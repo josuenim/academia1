@@ -61,17 +61,17 @@ class RegistrationFormCatedratico(forms.ModelForm):
     }))
 
     class Meta:
-        model = Account
+        model = Catedratico
         #               Erro me solicita Username en el formulario,solucion no usarlo aunque este en el model
         #fields = ['nombre','apellido','dpi','email','password']
-        fields = ['first_name','last_name','dpi','email','password']
+        fields = ['nombre','apellido','dpi','email','password']
         
     def __init__(self, *args,**kwargs):
         super(RegistrationFormCatedratico,self).__init__(*args,**kwargs)
         #Cada field representa cada caja de texto componente que se tiene registrado
         # mostrar etiquestas en los campos
-        self.fields['first_name'].widget.attrs['placeholder']='Ingrese nombre'
-        self.fields['last_name'].widget.attrs['placeholder']='Ingrese Apellido'
+        self.fields['nombre'].widget.attrs['placeholder']='Ingrese nombre'
+        self.fields['apellido'].widget.attrs['placeholder']='Ingrese Apellido'
         self.fields['dpi'].widget.attrs['placeholder']='Ingrese dpi' 
         self.fields['email'].widget.attrs['placeholder']='Ingrese email'
         #colocar estilos a los campos

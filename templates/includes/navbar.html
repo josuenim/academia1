@@ -58,7 +58,7 @@
         {%if user.id is None%}
         <div class="widget-header">
           <small class="tittle text-muted">Bienvenido visitante</small>
-        <a href="{% url 'login' %}" class="btn2"><button>Log in</button></a>
+        <a href="{% url 'custom_login' %}" class="btn2"><button>Log in</button></a>
         </div>
         {% else %}
         <div class="widget-header">

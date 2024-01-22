@@ -1,7 +1,8 @@
 from django.db import models
-from accounts2.models import Catedratico
+from accounts2.models import Catedratico,Account
 from category.models import Categorias
 from django.urls import reverse
+
 # Create your models here.
 class Curso(models.Model):
     nombre = models.CharField(max_length=50)
@@ -16,6 +17,7 @@ class Curso(models.Model):
     ##ForeignKey#
     profesor = models.ForeignKey(Catedratico, on_delete=models.SET_NULL, null=True)
     category = models.ForeignKey(Categorias,on_delete=models.SET_NULL,null=True)
+    catedratico = models.ForeignKey(Account, limit_choices_to={'is_catedratico': True}, on_delete=models.CASCADE,null=True)
     ##
     #modified_date=models.DateTimeField(auto_now=True)
     class Meta:

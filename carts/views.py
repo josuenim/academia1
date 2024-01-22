@@ -10,7 +10,7 @@ from django.contrib import messages
 from django.shortcuts import redirect
 
 from accounts2.forms import UserProfileForm, UserForm
-from accounts2.models import  UserProfile,Catedratico
+from accounts2.models import  UserProfile,Account
 
 
 
@@ -91,8 +91,7 @@ def checkout(request, total=0, quantity=0, cart_items=None):
     try:
         cart=Cart.objects.get(user=request.user)#cart_id=_get_cart_id(request)
         cart_items=CartItem.objects.filter(cart=cart,is_active=True)
-
-        user = request.user
+        user = request.user        
         # Verifica que el usuario sea autenticado y tiene el modelo Account
         if user.is_authenticated and hasattr(user, 'account'):
             # Llama al método para asignar cursos
@@ -109,7 +108,10 @@ def checkout(request, total=0, quantity=0, cart_items=None):
         print("error")
         pass #ignora la axception
     #dic indicar que  valores son los que se tiene que enviar al template cart  
-    userprofile = UserProfile.objects.get(user_id= request.user.id)
+    try:
+        userprofile = UserProfile.objects.get(user_id= request.user.id)
+    except UserProfile.DoesNotExist:
+        userprofile = None
     context = {
         'total':total,
         'quantity':quantity,
@@ -143,17 +145,27 @@ def edit_profile(request):
 
 
 def dashboard_catedratico(request):
-    # Obtener el catedrático que ha iniciado sesión
-    user = request.user
-    catedratico = get_object_or_404(Catedratico, username=user.username)
-    curso = get_object_or_404(Curso, profesor=catedratico)
-    catedratico_cart_items = CartItem.objects.filter(curso=curso)
+    # Obtener el catedrático que ha iniciado sesion
+    try:
+        user = request.user
+        cursos_asociados = Curso.objects.filter(catedratico=user)
 
-    context = {
-        'cursos_relacionados': curso,
-        'catedratico_cart_items': catedratico_cart_items,
+    except ObjectDoesNotExist:
+        print("Error")
+        pass
+    try:
+        userprofile = UserProfile.objects.get(user=user)
+    except UserProfile.DoesNotExist:
+        userprofile = None
+    quantity = 1
+
+    context = {     
+        'quantity':quantity,
+        'cursos_asociados': cursos_asociados,
+        'userprofile':userprofile,
     }
-    return render(request,'dashboard/dashboard_catedratico.html',context)
+    
+    return render(request,'accounts/dashboard_catedratico.html',context)
 
 
 '''def asignar_cursos(request):

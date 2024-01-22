@@ -15,12 +15,12 @@
         <div class="form-row">
           <div class="col form-group">
             <label>Nombre</label>
-            {{form_1.first_name}}
+            {{form_1.nombre}}
           </div>
           <!-- form_1-group end.// -->
           <div class="col form-group">
             <label>Apellido</label>
-            {{form_1.last_name}}
+            {{form_1.apellido}}
           </div>
           <!-- form_1-group end.// -->
         </div>
@@ -78,10 +78,10 @@
       </form>
     </article>
     <!-- card-body.// -->
-  </div>
+  </div>  
   <!-- card .// -->
   <h2>{{valor}}</h2>
-  <p class="text-center mt-4">Tienes una cuenta? <a href="{% url 'login' %}">Log In</a></p>
+  <p class="text-center mt-4">Tienes una cuenta? <a href="{% url 'custom_login' %}">Log In</a></p>
   <br /><br />
   <!-- ============================ COMPONENT REGISTER  END.// ================================= -->
 </section>

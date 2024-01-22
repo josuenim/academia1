@@ -40,7 +40,13 @@
                     <div class="col-md-7">
                         <div class="card" style="text-align:center;">
                             <div class="card-body">
-                                <img src="{{userprofile.profile_picture.url}}" alt="Imagen de Perfil" width="50" height="50" style="border-radius: 50%;">
+                            {% if userprofile %}
+                          <!-- Código para mostrar la información del UserProfile -->
+                          <img src="{{userprofile.profile_picture.url}}" alt="Imagen de Perfil" width="50" height="50" style="border-radius: 50%;">
+                          {% else %}
+                          <!-- Código para manejar el caso en que no haya UserProfile -->
+                          <p>No hay información de perfil disponible.</p>
+                          {% endif %}
                                 <p class="mb-0">{{user.email}}</p>
                                 <p> {{user.phone_number}}</p>
                             </div>

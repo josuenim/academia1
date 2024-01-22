@@ -13,6 +13,10 @@ from django.core.mail import EmailMessage
 
 #Importamos la funcion que me permite buscar el carrito de compras
 from carts.views import _get_cart_id
+#
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
+from .backends import MultiModelBackend
 
 
 
@@ -72,7 +76,7 @@ def register(request):
             #messages.success(request,'Se registro el usuario exitosamente')
             #Cuando se registre el usuario y envie el correo electronico
             # se redireccione a la pagina de login con dos valores (command y email)
-            return redirect('/accounts2/login/?command=verification&email='+email)
+            return redirect('/accounts2/custom_login/?command=verification&email='+email)
             # Esto acultara el formulario de login
             # indicando que revise mi correo electronico    
             #valor =1
@@ -91,8 +95,8 @@ def register_1(request):
         form_1 = RegistrationFormCatedratico(request.POST)
         #valor = 1
         if form_1.is_valid():
-            nombre=form_1.cleaned_data['first_name']
-            apellido = form_1.cleaned_data['last_name']
+            nombre=form_1.cleaned_data['nombre']
+            apellido = form_1.cleaned_data['apellido']
             email = form_1.cleaned_data['email']
             dpi = form_1.cleaned_data['dpi']
             password = form_1.cleaned_data['password']
@@ -100,7 +104,7 @@ def register_1(request):
             username = email.split("@")[0]
             #curso = Curso.objects.get(nombre='Pendiente')
             # create_user crea una instancia del usuario
-            user=Catedratico.objects.create_user(nombre=nombre,apellido=apellido,email=email,username=username,password=password)
+            user=Account.objects.create_user(first_name=nombre,last_name=apellido,email=email,username=username,password=password)
             user.dpi=dpi
             user.is_catedratico=True
             #user.phone_number='0'
@@ -112,7 +116,7 @@ def register_1(request):
         if not Catedratico.objects.filter(dpi=dpi).exists():
             user.save()
             messages.success(request, 'Se ha enviado la solicitud')
-            return redirect('/accounts2/login/?command=verification-catedratico')
+            return redirect('/accounts2/custom_login/?command=verification-catedratico')
         else:
             messages.error(request, 'DPI ya existe')
             return redirect('register_1')
@@ -128,11 +132,8 @@ def eleccion_usuario(request):
 
 
 
-
-
-
 # Nota: Se debe activar la cuenta (is_active = True) para poder usar el login
-def login(request):
+def custom_login(request):
     if request.method == 'POST':
         email = request.POST['email']
         password = request.POST['password']
@@ -140,32 +141,32 @@ def login(request):
         user = auth.authenticate(email=email, password=password)
 
         if user is not None:
-
             auth.login(request, user)
-            messages.success(request, 'Has iniciado sesion exitosamente' )
-        #Falta solucionar el is_catedratico
-            if user.is_catedratico:  # atributo 'is_catedratico'  modelo Catedratico
-                return redirect('dashboard_catedratico')#pagina_catedratico
-            elif user.is_staff:  #  'is_staff' indica administrador
-                return redirect('admin:index') #'admin:index'
-            elif user.is_account:  # atributo 'is_account'  modelo Account
-                return redirect('checkout')#'pagina_estudiante'
+            messages.success(request, 'Has iniciado sesión exitosamente')
+
+            # Asegúrate de que el objeto user tenga el atributo is_catedratico
+            if hasattr(user, 'is_catedratico') and user.is_catedratico:
+                return redirect('dashboard_catedratico')
+            elif user.is_staff:
+                return redirect('admin:index')
+            elif user.is_account:
+                return redirect('checkout')
             else:
-                return redirect('Home') 
+                return redirect('Home')
 
         else:
             messages.error(request, 'Las credenciales son incorrectas')
-            return redirect('login')
+            return redirect('custom_login')
 
-    return render(request, 'accounts/login.html')
+    return render(request, 'accounts/login.html') 
 
 
 
-@login_required(login_url='login')
+@login_required(login_url='custom_login')
 def logout(request):
     auth.logout(request)
     messages.success(request,'Has salido de sesion')
-    return redirect('login')    
+    return redirect('custom_login')    
 
 
 def activate(request, uidb64, token):
@@ -178,7 +179,7 @@ def activate(request, uidb64, token):
         user.is_active = True
         user.save()
         messages.success(request,'Felicidades, tu cuenta esta activa!')
-        return redirect('login')
+        return redirect('custom_login')
     else:
         messages.error(request,'La activacion es invalida')
         return redirect('register')
@@ -189,12 +190,7 @@ def activate(request, uidb64, token):
 def pagina_estudiante(request):
     return render(request,'dashboard/estudiante.html')
 
-
-@login_required(login_url ='login')
-def pagina_estudiante(request):
-    return render(request,'dashboard/estudiante.html')
-
-@login_required(login_url ='login')
+@login_required(login_url ='custom_login')
 def dashboard(request):
     return render(request,'accounts/dashboard.html')
 
@@ -221,7 +217,7 @@ def forgotPassword(request):
             send_email.send()
             # Generar un mensaje a la pagina disiendo que este correo esta llegando a tu bandeja de entrada
             messages.success(request, 'Un email fue enviado a tu bandeja de entrada para resetear tu password')
-            return redirect('login')
+            return redirect('custom_login')
         else: 
             messages.error(request, 'La cuenta de usuario no existe')
             return redirect('forgotPassword')
@@ -244,7 +240,7 @@ def resetpassword_validate(request, uidb64, token):
         return redirect('resetPassword')
     else:
         messages.error(request, 'El link ha expirado')
-        return redirect('login')
+        return redirect('custom_login')
     
 #funcion que procese el resetpassword
 def resetPassword(request):
@@ -258,7 +254,7 @@ def resetPassword(request):
             user.set_password(password)
             user.save()
             messages.success(request, 'El password se reseteo correctamente')
-            return redirect('login')
+            return redirect('custom_login')
         else:
             messages.erro(request,'El password de confirmacion no concuerda')
             return redirect('resetPassword')
@@ -266,5 +262,53 @@ def resetPassword(request):
         return render(request, 'accounts/resetPassword.html')
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+"""
+def custom_login(request):
+    if request.method == 'POST':
+        # Obtén las credenciales del formulario de inicio de sesión
+        email = request.POST['email']
+        password = request.POST.get('password')
+
+        # Intenta autenticar al usuario en la tabla Account
+        # Intentar autenticar al usuario en ambas tablas
+        try:
+            user_account = authenticate(request, email=email, password=password, model='Account')
+            if user_account is not None:
+                login(request, user_account)
+                return redirect('checkout')  # Cambia 'dashboard' con la URL de tu dashboard
+            else:
+                messages.error(request, 'Credenciales inválidas')
+                return render(request, 'accounts/login.html')
+  # Cambia 'dashboard' con la URL de tu dashboard
+        # Intenta autenticar al usuario en la tabla Catedratico
+        except:
+            pass
+        user_catedratico = authenticate(request, email=email, password=password, model='Catedratico')
+        if user_catedratico is not None:
+            login(request, user_catedratico)
+            return redirect('dashboard_catedratico') 
+        else:
+            messages.error(request, 'Credenciales inválidas')
+            return render(request, 'accounts/login.html')
+        
+          # Cambia 'login.html' con la plantilla de tu formulario de inicio de sesión
+
+    return render(request, 'accounts/login.html')  # Cambia 'login.html' con la plantilla de tu formulario de inicio de sesión
+
+
+""" 
 
 

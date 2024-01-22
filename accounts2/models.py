@@ -71,7 +71,7 @@ class Account(AbstractBaseUser):
         self.save()
     
     def __str__(self):
-        return self.email
+        return f'{self.first_name}  {self.last_name}'
     def has_perm(self, perm, obj=None):
         return self.is_admin
     def has_module_perms(self, add_label):
@@ -95,6 +95,20 @@ class CatedraticoManager(BaseUserManager):
         user.set_password(password)
         user.save(using=self._db)
         return user
+    def create_superuser(self, nombre, apellido, email, username, password):
+        user = self.create_user(
+            email=self.normalize_email(email),
+            username=username,
+            password=password,
+            nombre=nombre,
+            apellido=apellido,
+        )
+        user.is_admin = True
+        user.is_staff = True
+        user.is_active = True
+        user.is_superadmin = True
+        user.save(using=self._db)
+        return user
 
 
 class Catedratico(AbstractBaseUser):
@@ -109,6 +123,10 @@ class Catedratico(AbstractBaseUser):
     is_catedratico =models.BooleanField(default=True)
     is_active = models.BooleanField(default=False)
 
+    is_admin = models.BooleanField(default=False)  # Agrega este campo
+    is_staff = models.BooleanField(default=False)  # Agrega este campo
+    is_superadmin = models.BooleanField(default=False)  # Agrega este campo
+
     objects = CatedraticoManager() 
 
 
@@ -118,15 +136,16 @@ class Catedratico(AbstractBaseUser):
     #Al momento de llamar el modelo catedratico los parametros 
     #que se mostraran en el administrador seran nombre y apellido
     def __str__(self):
-        return f'{self.nombre} {self.apellido}'
+        return self.email
+    def has_perm(self, perm, obj=None):
+        return self.is_admin
+    def has_module_perms(self, add_label):
+        return True
     # Con esta funcion concedmos los permisos necesarios para que 
     # la libreria jazzmin no presente problemas.
     def get_all_permissions(self, obj=None):
         return set()
     
-
-
-    '''Tengo una aplicacion llama accounts2 dentro tengo mi modelo Account el cual guarda los datos como first_name, last_name, email... lo que me gustaria hacer es que dentro de un template al darle al boton assignar cursos'''
 
 class UserProfile(models.Model):
     user =models.OneToOneField(Account, on_delete=models.CASCADE)

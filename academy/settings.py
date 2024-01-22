@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-g)dz-)$=^#==!pn%o*!zw0fg!^bj31_5bg)8pgy@hm(zj@hp8t
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['academia2-env.eba-mmzidnpt.us-west-2.elasticbeanstalk.com']#'your_domain_or_ip', '127.0.0.1', 'localhost'
+ALLOWED_HOSTS = ['academia2-env.eba-mmzidnpt.us-west-2.elasticbeanstalk.com']#'127.0.0.1', 'localhost'
 
 
 # Application definition
@@ -89,6 +89,8 @@ TEMPLATES = [
 WSGI_APPLICATION = 'academy.wsgi.application'
 
 AUTH_USER_MODEL = 'accounts2.Account'
+
+
 
 
 
@@ -176,3 +178,6 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'josuenim9@gmail.com'
 EMAIL_HOST_PASSWORD = 'ldrc oavx kono xfmh'
 EMAIL_USE_TLS = True    
+
+
+

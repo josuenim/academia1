@@ -8,13 +8,13 @@
         <div class = "container mx-auto alert alert-info" role ="alert" sytle = "max-width=380px; margin-top= 100px;" >
             Gracias por registrate  en el Portal Academia USAC, te hemos enviado un emial para confirmar tu cuenta [{{request.GET.email}}]
             <br><br>
-            Si ya verificaste tu cuenta, puede ir al login <a href = "{%url 'login'%}"> Login </a>
+            Si ya verificaste tu cuenta, puede ir al login <a href = "{%url 'custom_login'%}"> Login </a>
         </div>
     {% elif request.GET.command == 'verification-catedratico'  %}
     <div class = "container mx-auto alert alert-info" role ="alert" sytle = "max-width=380px; margin-top= 100px;" >
         Gracias por registrate  en el Portal Academia USAC, el administrado confirmara tu solicitud de registro.
         <br><br>
-        Si ya se verifico tu cuenta, puedes ir a <a href = "{%url 'login'%}"> Login </a>
+        Si ya se verifico tu cuenta, puedes ir a <a href = "{%url 'custom_login'%}"> Login </a>
     </div>
 
     {% else %}
@@ -26,7 +26,7 @@
             <div class="card-body sombra">
           <h4 class="card-title mb-4">Login</h4>
           
-          <form action = {%url 'login'%} method=POST>
+          <form action = {%url 'custom_login'%} method=POST>
             {% csrf_token %}
               <div class="form-group">
                  <input type="" class="form-control" placeholder="email" name="email">
